@@ -13,10 +13,7 @@ defmodule TodoList do
     entry = Map.put(entry, :id, todo_list.auto_id)
     new_entries = Map.put(todo_list.entries, todo_list.auto_id, entry)
 
-    %TodoList{todo_list |
-      entries: new_entries,
-      auto_id: todo_list.auto_id + 1
-    }
+    %TodoList{todo_list | entries: new_entries, auto_id: todo_list.auto_id + 1}
   end
 
   def entries(todo_list, date) do
@@ -51,8 +48,7 @@ defmodule TodoList.CsvImporter do
     file_name
     |> File.stream!()
     |> Stream.map(&String.replace(&1, "\n", ""))
-    |> Stream.map(
-    fn line ->
+    |> Stream.map(fn line ->
       [date, title] = String.split(line, ",")
       [year, month, day] = String.split(date, "/") |> Enum.map(&String.to_integer/1)
       {:ok, date} = Date.new(year, month, day)
